@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Товары — работа с API</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { font-family: system-ui, sans-serif; max-width: 560px; margin: 0 auto; padding: 24px; background: #f5f5f5; }
+    h1 { margin-top: 0; }
+    .form { background: #fff; padding: 16px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+    .form label { display: block; margin-bottom: 4px; font-weight: 500; }
+    .form input { width: 100%; padding: 8px 12px; margin-bottom: 12px; border: 1px solid #ccc; border-radius: 6px; }
+    .form button { padding: 10px 20px; background: #2c3e50; color: #fff; border: none; border-radius: 6px; cursor: pointer; }
+    .form button:hover { background: #1a252f; }
+    .list { background: #fff; padding: 16px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+    .item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #eee; }
+    .item:last-child { border-bottom: none; }
+    .item span { flex: 1; }
+    .item .price { color: #2c3e50; font-weight: 600; margin-left: 12px; }
+    .item button { padding: 6px 12px; background: #c0392b; color: #fff; border: none; border-radius: 4px; cursor: pointer; font-size: 12px; }
+    .item button:hover { background: #a93226; }
+    .msg { padding: 12px; border-radius: 6px; margin-bottom: 16px; }
+    .msg.error { background: #fadbd8; color: #c0392b; }
+    .msg.success { background: #d5f5e3; color: #1e8449; }
+    .links { margin-top: 20px; font-size: 14px; }
+    .links a { color: #3498db; }
+  </style>
+</head>
+<body>
+  <h1>Товары</h1>
+  <div id="msg"></div>
+
+  <div class="form">
+    <h2 style="margin-top:0">Добавить товар</h2>
+    <label>Название</label>
+    <input type="text" id="name" placeholder="Название товара">
+    <label>Стоимость (₽)</label>
+    <input type="number" id="price" placeholder="0" min="0" step="1">
+    <button type="button" id="add">Добавить</button>
+  </div>
+
+  <div class="list">
+    <h2>Список товаров</h2>
+    <div id="list">Загрузка…</div>
+  </div>
+
+  <div class="links">
+    <a href="/index.html">Карточка товара (практика 1)</a>
+  </div>
+
+  <script>
+const listEl = document.getElementById('list');
+    const msgEl = document.getElementById('msg');
+    const nameInput = document.getElementById('name');
+    const priceInput = document.getElementById('price');
+    const addBtn = document.getElementById('add');
+
+    function showMsg(text, type = 'success') {
+      msgEl.textContent = text;
+      msgEl.className = 'msg ' + type;
+      msgEl.hidden = false;
+      setTimeout(() => { msgEl.hidden = true; }, 3000);
+    }
+
+    async function loadProducts() {
+      try {
+        const res = await fetch('/products');
+        const products = await res.json();
+        listEl.innerHTML = products.length === 0
+          ? '<p>Товаров пока нет. Добавьте первый.</p>'
+          : products.map(p => `
+              <div class="item" data-id="${p.id}">
+                <span><strong>${escapeHtml(p.name)}</strong><span class="price">${p.price} ₽</span></span>
+                <button type="button" onclick="removeProduct(${p.id})">Удалить</button>
+              </div>
+            `).join('');
+      } catch (e) {
+        listEl.innerHTML = '<p style="color:#c0392b">Не удалось загрузить список. Запущен ли сервер? (node app.js)</p>';
+      }
+    }
+
+    function escapeHtml(s) {
+      const div = document.createElement('div');
+      div.textContent = s;
+      return div.innerHTML;
+    }
+
+    addBtn.addEventListener('click', async () => {
+      const name = nameInput.value.trim();
+      const price = Number(priceInput.value) || 0;
+      if (!name) { showMsg('Введите название', 'error'); return; }
+      try {
+        const res = await fetch('/products', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, price }),
+        });
+        const product = await res.json();
+        showMsg(`Добавлено: ${product.name}`);
+        nameInput.value = '';
+        priceInput.value = '';
+        loadProducts();
+      } catch (e) {
+        showMsg('Ошибка при добавлении', 'error');
+      }
+    });
+
+    async function removeProduct(id) {
+      if (!confirm('Удалить товар?')) return;
+      try {
+        await fetch(`/products/${id}`, { method: 'DELETE' });
+        showMsg('Товар удалён');
+        loadProducts();
+      } catch (e) {
+        showMsg('Ошибка при удалении', 'error');
+      }
+    }
+
+    loadProducts();
+  </script>
+</body>
+</html>

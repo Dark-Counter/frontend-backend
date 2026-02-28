@@ -1,0 +1,62 @@
+{
+  "info": {
+    "name": "Users API (как в методичке)",
+    "description": "CRUD пользователей (id, name, age). Соответствует примерам из PDF практик 2–3.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "GET — все пользователи",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "http://localhost:3000/users",
+        "description": "Список пользователей"
+      }
+    },
+    {
+      "name": "GET — пользователь по id",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "http://localhost:3000/users/1",
+        "description": "Пользователь с id=1"
+      }
+    },
+    {
+      "name": "POST — добавить пользователя",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Мария\",\n  \"age\": 22\n}"
+        },
+        "url": "http://localhost:3000/users",
+        "description": "Добавить пользователя (name, age)"
+      }
+    },
+    {
+      "name": "PATCH — изменить пользователя",
+      "request": {
+        "method": "PATCH",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Пётр\",\n  \"age\": 17\n}"
+        },
+        "url": "http://localhost:3000/users/1",
+        "description": "Изменить пользователя с id=1"
+      }
+    },
+    {
+      "name": "DELETE — удалить пользователя",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": "http://localhost:3000/users/2",
+        "description": "Удалить пользователя с id=2"
+      }
+    }
+  ]
+}

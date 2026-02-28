@@ -1,0 +1,96 @@
+{
+  "info": {
+    "name": "Products API (Практика 2)",
+    "description": "Коллекция для тестирования API товаров. Запустите сервер: node app.js",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "GET — все товары",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/products",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["products"]
+        },
+        "description": "Получить список всех товаров"
+      }
+    },
+    {
+      "name": "GET — товар по id",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/products/1",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["products", "1"]
+        },
+        "description": "Получить товар с id=1"
+      }
+    },
+    {
+      "name": "POST — добавить товар",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Новый товар\",\n  \"price\": 1500\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/products",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["products"]
+        },
+        "description": "Добавить новый товар (name, price)"
+      }
+    },
+    {
+      "name": "PATCH — изменить товар",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Обновлённое название\",\n  \"price\": 2990\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/products/1",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["products", "1"]
+        },
+        "description": "Изменить товар с id=1"
+      }
+    },
+    {
+      "name": "DELETE — удалить товар",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/products/2",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["products", "2"]
+        },
+        "description": "Удалить товар с id=2"
+      }
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+// ============================================
+// Практическое занятие №1 — CSS-препроцессор SASS
+// Карточка товара: переменные, миксин, вложенность
+// ============================================
+
+// --- Переменные (минимум 2) ---
+$primary-color: #2c3e50;
+$font-size-base: 16px;
+$description-color: #5d6d7e;
+$border-radius: 12px;
+$shadow-color: rgba(0, 0, 0, 0.15);
+
+// Миксин: карточка с тенью и скруглением (минимум 1)
+@mixin card-style($radius: $border-radius, $shadow: 0 4px 12px $shadow-color) {
+  border-radius: $radius;
+  box-shadow: $shadow;
+  overflow: hidden;
+}
+
+// Вложенная структура селекторов — карточка товара
+.product-card {
+  max-width: 320px;
+  background: #fff;
+  @include card-style;
+
+  &__image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+  }
+
+  &__content {
+    padding: 20px;
+  }
+
+  &__title {
+    margin: 0 0 12px;
+    font-size: $font-size-base * 1.25;
+    color: $primary-color;
+    font-weight: 600;
+  }
+
+  &__description {
+    margin: 0;
+    font-size: $font-size-base * 0.875;
+    line-height: 1.5;
+    color: $description-color;
+  }
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  font-family: system-ui, -apple-system, sans-serif;
+  background: #f5f5f5;
+}

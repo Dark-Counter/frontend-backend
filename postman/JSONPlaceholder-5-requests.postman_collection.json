@@ -1,0 +1,60 @@
+{
+  "info": {
+    "name": "JSONPlaceholder — 5 запросов (Практика 3, часть 2)",
+    "description": "Внешний API без ключа. Не менее 5 запросов для отчёта. Документация: https://jsonplaceholder.typicode.com/",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. GET — список постов",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "https://jsonplaceholder.typicode.com/posts",
+        "description": "Получить все посты (JSON-массив)"
+      }
+    },
+    {
+      "name": "2. GET — один пост по id",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "https://jsonplaceholder.typicode.com/posts/1",
+        "description": "Получить пост с id=1"
+      }
+    },
+    {
+      "name": "3. GET — список пользователей",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "https://jsonplaceholder.typicode.com/users",
+        "description": "Получить всех пользователей"
+      }
+    },
+    {
+      "name": "4. GET — один пользователь",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "https://jsonplaceholder.typicode.com/users/1",
+        "description": "Получить пользователя с id=1"
+      }
+    },
+    {
+      "name": "5. GET — комментарии к посту",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://jsonplaceholder.typicode.com/comments?postId=1",
+          "protocol": "https",
+          "host": ["jsonplaceholder", "typicode", "com"],
+          "path": ["comments"],
+          "query": [{ "key": "postId", "value": "1" }]
+        },
+        "description": "Комментарии к посту с postId=1"
+      }
+    }
+  ]
+}
